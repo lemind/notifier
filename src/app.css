@@ -1,6 +1,7 @@
 .element {
-  background-color: blue;
+  background-color: #7a7a88;
   color: white;
   font-size: 20px;
-  padding: 20px;
+  padding: 5px;
+  border-bottom: 1px solid rebeccapurple;
 }
