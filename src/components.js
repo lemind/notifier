@@ -3,6 +3,8 @@ import classNames from 'classnames';
 
 import styles from './app.less'
 
+import PopoverPanel from './components/PopoverPanel'
+
 export function Todo(props) {
   const { todo } = props;
   if(todo.isDone) {
@@ -87,6 +89,7 @@ export function Notifier(props) {
         <i className={notificationNoneClassesStr}>notifications_none</i>
         <i className={notificationActiveClassesStr}>notifications_active</i>
       </div>
+      <PopoverPanel />
     </div>
   );
 }
