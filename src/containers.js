@@ -3,6 +3,7 @@
 import { connect } from 'react-redux';
 import * as components from './components';
 import { addTodo, toggleTodo } from './actions';
+import * as notyActions from './store/notifications/notifications.actions';
 
 export const TodoList = connect(
   function mapStateToProps(state) {
@@ -15,3 +16,16 @@ export const TodoList = connect(
     };
   }
 )(components.TodoList);
+
+export const Notifier = connect(
+  function mapStateToProps(state) {
+    return { notifications: state };
+  },
+  function mapDispatchToProps(dispatch) {
+    return {
+      addNotification: notification => dispatch(notyActions.addNotification(notification)),
+      readNotification: id => dispatch(notyActions.readNotification(id)),
+      deleteNotifications: () => dispatch(notyActions.deleteNotifications())
+    };
+  }
+)(components.Notifier);

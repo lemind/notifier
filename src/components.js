@@ -1,5 +1,7 @@
 import React from 'react';
-import styles from './app.css'
+import classNames from 'classnames';
+
+import styles from './app.less'
 
 export function Todo(props) {
   const { todo } = props;
@@ -42,6 +44,49 @@ export function TodoList(props) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+export function Notifier(props) {
+  const { notifications,
+    addNotification,
+    deleteNotifications,
+    readNotification } = props;
+
+  const unreadCount = notifications.reduce((count, item) => {
+    item.unread && count++;
+    return count;
+  }, 0);
+
+  let active = false;
+
+  let notifierClasses = {};
+  notifierClasses[styles['notifier']] = true;
+  notifierClasses[styles['notifierActive']] = active;
+  let notifierClassesStr = classNames(notifierClasses);
+
+  let notificationNoneClasses = {
+      'material-icons': true,
+    };
+  notificationNoneClasses[styles['notifierIcons']] = true;
+  notificationNoneClasses[styles['notificationNoneIcon']] = true;
+  let notificationNoneClassesStr = classNames(notificationNoneClasses);
+
+  let notificationActiveClasses = {
+      'material-icons': true,
+    };
+  notificationActiveClasses[styles['notifierIcons']] = true;
+  notificationActiveClasses[styles['notificationActiveIcon']] = true;
+  let notificationActiveClassesStr = classNames(notificationActiveClasses);
+
+  return (
+    <div className={styles.header}>
+      <div className={notifierClassesStr}>
+        <span className={styles.counter}>{unreadCount}</span>
+        <i className={notificationNoneClassesStr}>notifications_none</i>
+        <i className={notificationActiveClassesStr}>notifications_active</i>
+      </div>
     </div>
   );
 }
