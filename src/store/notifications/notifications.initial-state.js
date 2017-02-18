@@ -3,7 +3,7 @@ export const INITIAL_STATE = [
     id: 17,
     title: 'Test test test 17',
     unread: true,
-    datetime: new Date(),
+    datetime: new Date().setHours((new Date()).getHours() - 0),
   },
   {
     id: 16,
