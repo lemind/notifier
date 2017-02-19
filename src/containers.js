@@ -1,23 +1,12 @@
 // src/containers.js
 
 import { connect } from 'react-redux';
-import * as components from './components';
-import * as ControlsComponent from './components/Controls/Controls';
-import { addTodo, toggleTodo } from './actions';
-import * as notyActions from './store/notifications/notifications.actions';
-import * as popupActions from './store/popup/popup.actions';
 
-export const TodoList = connect(
-  function mapStateToProps(state) {
-    return { todos: state.todos };
-  },
-  function mapDispatchToProps(dispatch) {
-    return {
-      addTodo: text => dispatch(addTodo(text)),
-      toggleTodo: id => dispatch(toggleTodo(id))
-    };
-  }
-)(components.TodoList);
+import * as NotifierComponent from './components/Notifier/Notifier';
+import * as ControlsComponent from './components/Controls/Controls';
+
+import * as notificationsActions from './store/notifications/notifications.actions';
+import * as popupActions from './store/popup/popup.actions';
 
 export const Notifier = connect(
   function mapStateToProps(state) {
@@ -28,7 +17,7 @@ export const Notifier = connect(
       popupToggle: () => dispatch(popupActions.popupToggle())
     };
   }
-)(components.Notifier);
+)(NotifierComponent.Notifier);
 
 export const Controls = connect(
   function mapStateToProps(state) {
@@ -36,10 +25,10 @@ export const Controls = connect(
   },
   function mapDispatchToProps(dispatch) {
     return {
-      addNotification: notification => dispatch(notyActions.addNotification(notification)),
-      readNotification: id => dispatch(notyActions.readNotification(id)),
-      readNotifications: () => dispatch(notyActions.readNotifications()),
-      deleteNotifications: () => dispatch(notyActions.deleteNotifications()),
+      addNotification: notification => dispatch(notificationsActions.addNotification(notification)),
+      readNotification: id => dispatch(notificationsActions.readNotification(id)),
+      readNotifications: () => dispatch(notificationsActions.readNotifications()),
+      deleteNotifications: () => dispatch(notificationsActions.deleteNotifications()),
       popupToggle: () => dispatch(popupActions.popupToggle())
     };
   }

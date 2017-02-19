@@ -1,59 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import styles from './app.less'
-
-import Popover from 'material-ui/Popover';
-
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import Popover from 'material-ui/Popover';
 import * as moment from 'moment';
 
-export function Todo(props) {
-  const { todo } = props;
-  if(todo.isDone) {
-    return <strike>{todo.text}</strike>;
-  } else {
-    return <span>{todo.text}</span>;
-  }
-}
-
-export function TodoList(props) {
-  const { todos, toggleTodo, addTodo } = props;
-
-  const onSubmit = (event) => {
-    const input = event.target;
-    const text = input.value;
-    const isEnterKey = (event.which == 13);
-    const isLongEnough = text.length > 0;
-
-    if(isEnterKey && isLongEnough) {
-      input.value = '';
-      addTodo(text);
-    }
-  };
-
-  const toggleClick = id => event => toggleTodo(id);
-
-  return (
-    <div className='todo'>
-      <input type='text'
-             className='todo__entry'
-             placeholder='Add todo'
-             onKeyDown={onSubmit} />
-      <ul className='todo__list'>
-        {todos.map(t => (
-          <li key={t.get('id')}
-              className={styles.element}
-              onClick={toggleClick(t.get('id'))}>
-            <Todo todo={t.toJS()} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import * as CONST from './../../const'
+import styles from './notifier.less';
 
 export class EventList extends React.Component {
   constructor(props) {
@@ -63,9 +16,8 @@ export class EventList extends React.Component {
   }
 
   getUnreadItems(items) {
-    const unreadCount = 5;
     const filtered = items.filter((i) => {return i.unread});
-    return filtered.slice(0, unreadCount);
+    return filtered.slice(0, CONST.UNREAD_MESSAGE_COUNT);
   }
 
   render() {
@@ -160,7 +112,9 @@ export class Notifier extends React.Component {
           onClick={handleTouchTap}
           ref={(el) => { this.notifierEl = el; }}>
           <span className={styles.counter}>
-            {this.state.unreadCount > 99 ? '>99' : this.state.unreadCount}
+            {this.state.unreadCount > CONST.MAX_NOTIFIER_MESSAGE_COUNT
+              ? '>' + CONST.MAX_NOTIFIER_MESSAGE_COUNT
+              : this.state.unreadCount}
           </span>
           <i className={notificationNoneClassesStr}>notifications_none</i>
           <i className={notificationActiveClassesStr}>notifications_active</i>

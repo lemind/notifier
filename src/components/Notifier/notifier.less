@@ -1,0 +1,60 @@
+.header {
+  height: 60px;
+  width: 100%;
+  padding: 10px;
+  background: whitesmoke;
+  box-sizing: border-box;
+}
+
+.notifier{
+  width: 40px;
+  height: 40px;
+  float: right;
+  margin-right: 20px;
+  position: relative;
+}
+
+.counter {
+  position: absolute;
+  background: darkorange;
+  padding: 1px 5px;
+  left: 22px;
+  display: none;
+  border: 1px solid black;
+}
+
+.notificationNoneIcon {display: block;}
+.notificationActiveIcon {display: none;}
+
+.notifierActive {
+  .notificationActiveIcon {display: block;}
+  .notificationNoneIcon {display: none;}
+  .counter {display: block;}
+}
+
+.notifierIcons {
+  font-size: 42px;
+  cursor: pointer;
+}
+
+.eventList {
+  padding: 10px 20px;
+
+  .event {
+    padding: 10px 0;
+  }
+
+  .eventTitle {
+    font-weight: bold;
+  }
+
+  .eventTime {
+    font-size: 12px;
+  }
+
+  .close {
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

@@ -1,12 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import styles from './controls.less'
-
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 import * as moment from 'moment';
+
+import * as CONST from './../../const'
+import styles from './controls.less'
 
 export class Controls extends React.Component {
   constructor(props) {
@@ -66,7 +65,7 @@ export class Controls extends React.Component {
   componentDidMount() {
     this.timerID = setInterval(
       () => this.generateEvent(),
-      20000
+      CONST.EVENT_GENERATING_INTERVAL
     );
   }
 
@@ -104,8 +103,9 @@ export class Controls extends React.Component {
             <button onClick={togglePopup}>Toggle popup</button>
           </div>
 
-          <div style={{'marginTop': '50px'}}>
-          <div>***events list***</div>
+          <div style={{'marginTop': '50px',
+            'display': CONST.SHOW_FULL_EVENT_LIST ? 'block' : 'none'}}>
+          <div>***full events list***</div>
           {this.state.notifications.map(n => (
             <div key={n.id}>
               <div>{n.title} / {n.unread ? 'true' : 'false'}</div>
