@@ -1,7 +1,5 @@
 import { INITIAL_STATE } from './notifications.initial-state';
 
-console.log('INITIAL_STATE', INITIAL_STATE);
-
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case 'ADD_NOTIFICATION':
@@ -9,6 +7,10 @@ export default function(state = INITIAL_STATE, action) {
     case 'NOTIFICATION_READ':
       return state.map(n => {
         return n.id !== action.payload ? n : Object.assign({}, n, action.payload);
+      });
+    case 'NOTIFICATIONS_READ':
+      return state.map(n => {
+        return Object.assign({}, n, {unread: false});
       });
     case 'NOTIFICATIONS_DELETED':
       return [];

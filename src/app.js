@@ -4,22 +4,19 @@ if (module.hot) {
 
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { List, Map } from 'immutable';
 
 import reducer from './reducer';
-import { TodoList, Notifier } from './containers';
+import { TodoList, Notifier, Controls } from './containers';
 
 require('./app.less')
 
 import notifications from './store/notifications/notifications.reducer';
 
-const store = createStore(notifications);
-
-const Controls = () => (
-  <div>controls here</div>
-);
+const rootReducer = combineReducers({todos: reducer, notifications});
+const store = createStore(rootReducer);
 
 const App = () => (
   <div>
@@ -34,10 +31,3 @@ render(
   </Provider>,
   document.getElementById('app')
 );
-
-// render(
-//   <Provider store={store}>
-//     <TodoList />
-//   </Provider>,
-//   document.getElementById('app1')
-// );

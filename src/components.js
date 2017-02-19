@@ -3,7 +3,6 @@ import classNames from 'classnames';
 
 import styles from './app.less'
 
-import PopoverPanel from './components/PopoverPanel'
 import Popover from 'material-ui/Popover';
 
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
@@ -78,7 +77,7 @@ export class EventList extends React.Component {
             <div className={styles.eventTime}>{moment(n.datetime).fromNow()}</div>
           </div>
         ))}
-        <a className={styles.close} onClick={this.props.closeHandler}>nore events...</a>
+        <a className={styles.close} onClick={this.props.closeHandler}>more events...</a>
       </div>
     )
   }
@@ -94,15 +93,10 @@ export class Notifier extends React.Component {
       readNotification } = props;
     this.notifications = props.notifications;
 
-    const unreadCount = notifications.reduce((count, item) => {
-      item.unread && count++;
-      return count;
-    }, 0);
-
     this.state = {
       value: 1,
       notifications: notifications,
-      unreadCount: unreadCount,
+      unreadCount: this.getUnreadCount(notifications),
       popoverOpen: false
     };
   }
@@ -111,12 +105,21 @@ export class Notifier extends React.Component {
     return { muiTheme: getMuiTheme(baseTheme) };
   }
 
+  getUnreadCount(notifications) {
+    return notifications.reduce((count, item) => {
+      item.unread && count++;
+      return count;
+    }, 0);
+  }
+
   handleTouchTap(event){
     event.preventDefault();
-    this.setState({
-      popoverOpen: true,
-      anchorEl: event.currentTarget,
-    });
+    if (this.state.unreadCount) {
+      this.setState({
+        popoverOpen: true,
+        anchorEl: event.currentTarget,
+      });
+    }
   }
 
   handleRequestClose(){
@@ -126,8 +129,15 @@ export class Notifier extends React.Component {
     });
   }
 
+  componentWillReceiveProps(state) {
+    this.setState({
+      notifications: state.notifications,
+      unreadCount: this.getUnreadCount(state.notifications),
+    });
+  }
+
   render() {
-    let active = false;
+    let active = !!this.state.unreadCount;
 
     let notifierClasses = {};
     notifierClasses[styles['notifier']] = true;
@@ -154,7 +164,6 @@ export class Notifier extends React.Component {
 
     return (
       <div className={styles.header}>
-        <span>popoverOpen - {this.state.popoverOpen ? 'true' : 'false'}</span>
         <div className={notifierClassesStr} onClick={handleTouchTap}>
           <span className={styles.counter}>{this.state.unreadCount}</span>
           <i className={notificationNoneClassesStr}>notifications_none</i>
@@ -168,7 +177,7 @@ export class Notifier extends React.Component {
           animationOptions={{duration: 0.3, timing: 'linear'}}
           onRequestClose={handleRequestClose}
         >
-          <div><EventList items={this.notifications} closeHandler={handleRequestClose}/></div>
+          <div><EventList items={this.state.notifications} closeHandler={handleRequestClose}/></div>
         </Popover>
       </div>
     );
