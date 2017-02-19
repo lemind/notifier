@@ -14,8 +14,13 @@ import { TodoList, Notifier, Controls } from './containers';
 require('./app.less')
 
 import notifications from './store/notifications/notifications.reducer';
+import popup from './store/popup/popup.reducer';
 
-const rootReducer = combineReducers({todos: reducer, notifications});
+const rootReducer = combineReducers({
+    todos: reducer,
+    notifications,
+    popup
+  });
 const store = createStore(rootReducer);
 
 const App = () => (

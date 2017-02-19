@@ -87,17 +87,13 @@ export class Notifier extends React.Component {
   constructor(props) {
     super();
 
-    const { notifications,
-      addNotification,
-      deleteNotifications,
-      readNotification } = props;
+    this.popupToggleAction = props.popupToggle;
     this.notifications = props.notifications;
 
     this.state = {
-      value: 1,
-      notifications: notifications,
-      unreadCount: this.getUnreadCount(notifications),
-      popoverOpen: false
+      notifications: this.notifications,
+      unreadCount: this.getUnreadCount(this.notifications),
+      popoverOpen: props.popup.open
     };
   }
 
@@ -115,24 +111,20 @@ export class Notifier extends React.Component {
   handleTouchTap(event){
     event.preventDefault();
     if (this.state.unreadCount) {
-      this.setState({
-        popoverOpen: true,
-        anchorEl: event.currentTarget,
-      });
+      this.popupToggleAction();
     }
   }
 
   handleRequestClose(){
     event.preventDefault();
-    this.setState({
-      popoverOpen: false,
-    });
+    this.popupToggleAction();
   }
 
   componentWillReceiveProps(state) {
     this.setState({
       notifications: state.notifications,
       unreadCount: this.getUnreadCount(state.notifications),
+      popoverOpen: state.popup.open,
     });
   }
 
@@ -164,14 +156,18 @@ export class Notifier extends React.Component {
 
     return (
       <div className={styles.header}>
-        <div className={notifierClassesStr} onClick={handleTouchTap}>
-          <span className={styles.counter}>{this.state.unreadCount}</span>
+        <div className={notifierClassesStr}
+          onClick={handleTouchTap}
+          ref={(el) => { this.notifierEl = el; }}>
+          <span className={styles.counter}>
+            {this.state.unreadCount > 99 ? '>99' : this.state.unreadCount}
+          </span>
           <i className={notificationNoneClassesStr}>notifications_none</i>
           <i className={notificationActiveClassesStr}>notifications_active</i>
         </div>
         <Popover
           open={this.state.popoverOpen}
-          anchorEl={this.state.anchorEl}
+          anchorEl={this.notifierEl}
           anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
           animationOptions={{duration: 0.3, timing: 'linear'}}

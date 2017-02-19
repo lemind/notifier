@@ -5,6 +5,7 @@ import * as components from './components';
 import * as ControlsComponent from './components/Controls/Controls';
 import { addTodo, toggleTodo } from './actions';
 import * as notyActions from './store/notifications/notifications.actions';
+import * as popupActions from './store/popup/popup.actions';
 
 export const TodoList = connect(
   function mapStateToProps(state) {
@@ -20,23 +21,26 @@ export const TodoList = connect(
 
 export const Notifier = connect(
   function mapStateToProps(state) {
-    return { notifications: state.notifications };
+    return { notifications: state.notifications, popup: state.popup };
   },
   function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+      popupToggle: () => dispatch(popupActions.popupToggle())
+    };
   }
 )(components.Notifier);
 
 export const Controls = connect(
   function mapStateToProps(state) {
-    return { notifications: state.notifications };
+    return { notifications: state.notifications, popup: state.popup };
   },
   function mapDispatchToProps(dispatch) {
     return {
       addNotification: notification => dispatch(notyActions.addNotification(notification)),
       readNotification: id => dispatch(notyActions.readNotification(id)),
       readNotifications: () => dispatch(notyActions.readNotifications()),
-      deleteNotifications: () => dispatch(notyActions.deleteNotifications())
+      deleteNotifications: () => dispatch(notyActions.deleteNotifications()),
+      popupToggle: () => dispatch(popupActions.popupToggle())
     };
   }
 )(ControlsComponent.Controls);

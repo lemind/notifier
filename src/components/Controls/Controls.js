@@ -21,6 +21,7 @@ export class Controls extends React.Component {
     this.actions.addNotification = props.addNotification;
     this.actions.readNotifications = props.readNotifications;
     this.actions.deleteNotifications = props.deleteNotifications;
+    this.actions.popupToggle = props.popupToggle;
 
     this.state = {
       notifications: props.notifications
@@ -49,7 +50,7 @@ export class Controls extends React.Component {
   }
 
   togglePopup() {
-    console.log('toggle');
+    this.actions.popupToggle();
   }
 
   getChildContext() {
@@ -60,6 +61,22 @@ export class Controls extends React.Component {
     this.setState({
       notifications: state.notifications,
     });
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.generateEvent(),
+      20000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  generateEvent() {
+    const randomTitle = Math.random().toString(32).slice(2);
+    this.actions.addNotification(randomTitle);
   }
 
   render() {
@@ -87,13 +104,14 @@ export class Controls extends React.Component {
             <button onClick={togglePopup}>Toggle popup</button>
           </div>
 
-<div style={{'marginTop': '50px'}}>
-{this.state.notifications.map(n => (
-  <div key={n.id}>
-    <div>{n.title} - {n.unread ? 1 : 0}</div>
-  </div>
-))}
-</div>
+          <div style={{'marginTop': '50px'}}>
+          <div>***events list***</div>
+          {this.state.notifications.map(n => (
+            <div key={n.id}>
+              <div>{n.title} / {n.unread ? 'true' : 'false'}</div>
+            </div>
+          ))}
+          </div>
 
         </div>
       </div>
