@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "test": "karma start --single-run --no-auto-watch karma.conf.js",
+    "test_watch": "karma start --auto-watch --no-single-run karma.conf.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,11 @@
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.4.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-webpack": "^2.0.2",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
