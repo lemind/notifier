@@ -80,12 +80,10 @@ export class Notifier extends React.Component {
     });
   }
 
-  render() {
-    let active = !!this.state.unreadCount;
-
+  getCssClasses(activeState){
     let notifierClasses = {};
     notifierClasses[styles['notifier']] = true;
-    notifierClasses[styles['notifierActive']] = active;
+    notifierClasses[styles['notifierActive']] = activeState;
     let notifierClassesStr = classNames(notifierClasses);
 
     let notificationNoneClasses = {
@@ -101,6 +99,19 @@ export class Notifier extends React.Component {
     notificationActiveClasses[styles['notifierIcons']] = true;
     notificationActiveClasses[styles['notificationActiveIcon']] = true;
     let notificationActiveClassesStr = classNames(notificationActiveClasses);
+
+    return { notifierClassesStr,
+        notificationNoneClassesStr,
+        notificationActiveClassesStr
+      };
+  }
+
+  render() {
+    let active = !!this.state.unreadCount;
+    const { notifierClassesStr,
+        notificationNoneClassesStr,
+        notificationActiveClassesStr
+      } = this.getCssClasses(!!this.state.unreadCount);
 
     const _this = this;
     const handleTouchTap = this.handleTouchTap.bind(this);
@@ -127,7 +138,9 @@ export class Notifier extends React.Component {
           animationOptions={{duration: 0.3, timing: 'linear'}}
           onRequestClose={handleRequestClose}
         >
-          <div><EventList items={this.state.notifications} closeHandler={handleRequestClose}/></div>
+          <div>
+            <EventList items={this.state.notifications} closeHandler={handleRequestClose}/>
+          </div>
         </Popover>
       </div>
     );

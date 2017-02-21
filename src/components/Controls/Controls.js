@@ -9,11 +9,6 @@ import styles from './controls.less'
 
 export class Controls extends React.Component {
   constructor(props) {
-    const { notifications,
-      addNotification,
-      deleteNotifications,
-      readNotification } = props;
-
     super();
 
     this.actions = {};
