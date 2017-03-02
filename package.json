@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline",
+    "start": "webpack-dev-server --contentBase ./dist --inline",
     "build": "webpack -p",
     "test": "karma start --single-run --no-auto-watch karma.conf.js",
     "test_watch": "karma start --auto-watch --no-single-run karma.conf.js"
@@ -28,6 +28,7 @@
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "html-webpack-plugin": "^2.28.0",
     "jasmine-core": "^2.5.2",
     "karma": "^1.4.1",
     "karma-chrome-launcher": "^2.0.0",
@@ -35,6 +36,7 @@
     "karma-webpack": "^2.0.2",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"

@@ -1,6 +1,7 @@
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -17,6 +18,7 @@ module.exports = {
         loader: 'babel-loader',
         include: path.resolve(__dirname, 'src'),
       },
+      { test: /\.html$/, loader: 'raw-loader' },
       {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract({
@@ -36,6 +38,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new ExtractTextPlugin("styles.css")
+    new ExtractTextPlugin("styles.css"),
+    new HtmlWebpackPlugin({
+      template: '../index.html',
+      filename: './index.html',
+      hash: true
+    })
   ]
 };
